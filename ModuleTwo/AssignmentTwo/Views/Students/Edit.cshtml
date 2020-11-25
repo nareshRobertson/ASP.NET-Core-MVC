@@ -1,0 +1,126 @@
+﻿@using System.Linq
+@model StudentVM
+@{
+	ViewData["Title"] = "Edit Student";
+}
+
+<h1>Edit Student</h1>
+<br />
+<br />
+@using (Html.BeginForm()) {
+	@Html.AntiForgeryToken()
+	<div class="form-horizontal">
+		@Html.HiddenFor(model => model.Item.Id)
+		<div class="form-group">
+			@Html.LabelFor(model => model.Item.FirstName, htmlAttributes: new {
+		   @class = "control-label col-md-2"
+	   })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.Item.FirstName, new {
+			   htmlAttributes = new {
+				   @class = "form-control"
+			   }
+		   })
+			</div>
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(model => model.Item.LastName, htmlAttributes: new {
+		   @class = "control-label col-md-2"
+	   })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.Item.LastName, new {
+			   htmlAttributes = new {
+				   @class = "form-control"
+			   }
+		   })
+			</div>
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(model => model.Item.Email, htmlAttributes: new {
+		   @class = "control-label col-md-2"
+	   })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.Item.Email, new {
+			   htmlAttributes = new {
+				   @class = "form-control"
+			   }
+		   })
+			</div>
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(model => model.Item.Phone, htmlAttributes: new {
+		   @class = "control-label col-md-2"
+	   })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.Item.Phone, new {
+			   htmlAttributes = new {
+				   @class = "form-control"
+			   }
+		   })
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<input type="submit" value="Save" class="btn btn-outline-primary" />
+			</div>
+		</div>
+	</div>
+}
+
+<br />
+<h4>Registered in:</h4>
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Course Number/Name</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@Html.Hidden("item-to-drop", "", new {
+			id = "item-to-drop"
+		})
+		@foreach (var sc in Model.CurrentCourses) {
+			<tr>
+				<td>@sc.CourseName</td>
+				<td>
+					@Html.ActionLink("Drop Course", "", new {
+						id = sc.Id
+					},
+					new {
+						@class = "drop",
+						data_toggle = "modal",
+						data_target = "#dropModal",
+						data_id = sc.Id,
+						data_name = sc.CourseName
+					})
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+<div>
+	@Html.ActionLink("Back to List", "Index")
+</div>
+
+<!--Drop Course Modal -->
+<div class="modal fade" id="dropModal" tabindex="-1" role="dialog" aria-labelledby="dropModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="dropModalLabel">Drop Course</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-primary" id="confirm-drop" data-dismiss="modal" data-controller="Students">Drop Course</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,8 @@
+﻿namespace AssignmentTwo {
+	public interface IEntity {
+		int Id {
+			get;
+			set;
+		}
+	}
+}

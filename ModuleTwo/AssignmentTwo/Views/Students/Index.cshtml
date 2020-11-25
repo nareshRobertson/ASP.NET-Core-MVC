@@ -1,0 +1,70 @@
+﻿@using System.Linq
+@model List<StudentDTO>
+@{
+	ViewData["Title"] = "Students";
+}
+
+<h1>Students</h1>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Full Name</th>
+			<th>Email Address</th>
+			<th>Phone Number</th>
+			<th>
+				@Html.ActionLink("Add New", "AddNew")
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@Html.Hidden("item-to-delete", "", new {
+			id = "item-to-delete"
+		})
+		@foreach (var Student in Model) {
+			<tr>
+				<th scope="row">@Student.Id</th>
+				<td>@Student.FullName</td>
+				<td>@Student.Email</td>
+				<td>@Student.Phone</td>
+				<td>
+					@Html.ActionLink("Edit", "Edit", new {
+						id = Student.Id
+					}) |
+					@Html.ActionLink("Delete", "", new {
+						id = Student.Id
+					},
+					new {
+						@class = "delete",
+						data_toggle = "modal",
+						data_target = "#deleteModal",
+						data_id = Student.Id,
+						data_name = Student.FullName
+				   })
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="deleteModalLabel">Delete Student</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-primary" id="confirm-delete" data-dismiss="modal" data-controller="Students">Delete Student</button>
+			</div>
+		</div>
+	</div>
+</div>
+
